@@ -1,10 +1,10 @@
 import style from "./Timer.module.css";
 import { useEffect, useState } from "react";
 const Timer = () => {
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [sessions, setSessions] = useState(0);
-  const [onBreak, setBreak] = useState(false);
+  const [time, setTime] = useState(localStorage.getItem("time") || 0);
+  const [isRunning, setIsRunning] = useState(true);
+  const [sessions, setSessions] = useState(localStorage.getItem("sessions") || 1);
+  const [onBreak, setBreak] = useState(localStorage.getItem("onBreak") || false);
   let handleStart = () => {
     setIsRunning(true);
   };
@@ -19,7 +19,7 @@ const Timer = () => {
     let interval = null;
     if (isRunning) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
+        setTime((prevTime) => parseInt(prevTime) + 1);
       }, 1000);
     } else {
       clearInterval(interval);
@@ -39,6 +39,11 @@ const Timer = () => {
       setTime(0);
     }
   }, [onBreak, time]);
+  useEffect(() => {
+    localStorage.setItem("sessions", sessions);
+    localStorage.setItem("time", time);
+    localStorage.setItem("onBreak", onBreak);
+  }, [sessions, time, onBreak]);
   let handleBreak = () => {
     setSessions((prevSessions) => prevSessions + 1);
     setTime(0);
@@ -47,7 +52,7 @@ const Timer = () => {
   };
   return (
     <section className={style.timerContainer}>
-      <h2>Timer</h2>
+      <h2>Session: {sessions}</h2>
       <span>{time} seconds</span>
       {isRunning ? (
         <button onClick={handleStop}>Stop</button>
