@@ -1,0 +1,44 @@
+/*<section className={style.timerContainer}>
+        <h2>Timer</h2>
+        <span>{time} seconds</span>
+        <button onClick={handleStart}>Start</button>
+        <button onClick={handleStop}>Stop</button>
+        <button onClick={handleReset}>Reset</button>
+        <span>Status: {onBreak?"On break":"working"}</span>
+    </section>*/
+
+.timerContainer{
+    position: fixed;
+    top: 30vh;
+    left: 0;
+    height: 40vh;
+    width: 8vw;
+    border: 1px solid black;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.timerContainer>h2{
+    text-align: center;
+}
+.timerContainer>span{
+    display: block;
+    text-align: center;
+}
+.timerContainer>button{
+    width: 60%;
+    padding: 10px;
+    border: none;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+.timerContainer>button:hover{
+    background-color: darkgreen;
+}
+.timerContainer>span:last-child{
+    display: block;
+    text-align: center;
+}
