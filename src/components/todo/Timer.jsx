@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Timer = () => {
   const [time, setTime] = useState(localStorage.getItem("time") || 0);
   const [isRunning, setIsRunning] = useState(true);
-  const [sessions, setSessions] = useState(localStorage.getItem("sessions") || 1);
+  const [sessions, setSessions] = useState(parseInt(localStorage.getItem("sessions")) || 1);
   const [onBreak, setBreak] = useState(localStorage.getItem("onBreak") || false);
   let handleStart = () => {
     setIsRunning(true);
@@ -14,6 +14,7 @@ const Timer = () => {
   let handleReset = () => {
     setTime(0);
     setIsRunning(true);
+    setSessions(1);
   };
   useEffect(() => {
     let interval = null;
@@ -31,19 +32,17 @@ const Timer = () => {
   useEffect(() => {
     if (!onBreak && time === 15) {
       handleBreak();
-    } else if (onBreak && sessions % 2 == 0 && time === 10) {
+    } else if (onBreak && sessions % 2 === 1 && time === 10) {
       setBreak(false);
       setTime(0);
-    } else if (onBreak && sessions % 2 == 1 && time === 5) {
+    } else if (onBreak && sessions % 2 === 0 && time === 5) {
       setBreak(false);
       setTime(0);
     }
-  }, [onBreak, time]);
-  useEffect(() => {
     localStorage.setItem("sessions", sessions);
     localStorage.setItem("time", time);
     localStorage.setItem("onBreak", onBreak);
-  }, [sessions, time, onBreak]);
+  }, [onBreak, time, sessions]);
   let handleBreak = () => {
     setSessions((prevSessions) => prevSessions + 1);
     setTime(0);
